@@ -10,7 +10,7 @@ setup(
     author_email = 'hoiy927@gmail.com',
     description='Berserker - BERt chineSE woRd toKenizER',
     long_description=long_description,
-    install_requires = ['requests', 'six', 'tqdm', 'tensorflow>=1.12.0'],
+    install_requires = ['requests', 'six', 'tqdm', 'tensorflow==1.13.1'],
     packages=find_packages(),
     include_package_data=True,
     classifiers=[

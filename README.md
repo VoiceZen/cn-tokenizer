@@ -1,9 +1,12 @@
-# Berserker
-Berserker (BERt chineSE woRd toKenizER) is a Chinese tokenizer built on top of Google's [BERT](https://github.com/google-research/bert) model.
+# cn-tokenizer
+Chinese words are made of wordparts, unlike english space and punctuations are not the best indicator of word boundaries. For example "显示器" is a word and so is "我" these same wordparts can be also used to form other words. Tokens are reliable only when the complete sentence is considered, this is what cn-tokenizer does.
+
+This repo is based on Berserker (BERt chineSE woRd toKenizER) is a Chinese tokenizer built on top of Google's [BERT](https://github.com/google-research/bert) model.
+
 
 ## Installation
-```python
-pip install basaka
+```
+python setup.py develop
 ```
 
 ## Usage
@@ -36,13 +39,19 @@ Reference: [Ji Ma, Kuzman Ganchev, David Weiss - State-of-the-art Chinese Word S
 ## Limitation
 Since Berserker ~~is muscular~~ is based on BERT, it has a large model size (~300MB) and run slowly on CPU. Berserker is just a proof of concept on what could be achieved with BERT.
 
-Currently the default model provided is trained with [SIGHAN 2005](http://sighan.cs.uchicago.edu/bakeoff2005/) [PKU dataset](http://sighan.cs.uchicago.edu/bakeoff2005/data/icwb2-data.zip). We plan to release more pretrained model in the future.
+Currently the default model provided is trained with [SIGHAN 2005](http://sighan.cs.uchicago.edu/bakeoff2005/) [PKU dataset](http://sighan.cs.uchicago.edu/bakeoff2005/data/icwb2-data.zip).
+
+The model currently does not seem to use multi gpus. 
 
 ## Architecture
 Berserker is fine-tuned over TPU with [pretrained Chinese BERT model](https://storage.googleapis.com/bert_models/2018_11_03/chinese_L-12_H-768_A-12.zip). It is connected with a single dense layer which is applied to all tokens to produce a sequence of [0, 1] output, where 1 denote a split.
 
-## Training
-We provided the source code for training under the `trainer` subdirectory. Feel free to contact me if you need any help reproducing the result.
+A batch mode transcriber as process_me is also added which operates from a manifest in the following format:
+```
+file_id,start,end,party,txt
+```
+The only field that is used is txt, as long as the manifest has this field thanks to df it will work.
 
-## Bonus Video
-[<img src="https://img.youtube.com/vi/H_xmyvABZnE/maxres1.jpg" alt="Yachae!! BERSERKER!!"/>](https://www.youtube.com/watch?v=H_xmyvABZnE)
+## Training
+Provided as is from berserker, which provides the source code for training under the `trainer` subdirectory.
+
